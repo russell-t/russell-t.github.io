@@ -1,0 +1,17 @@
+baseURL: https://russell-t.github.io
+languageCode: en-us
+title: Russell Blog
+theme: ["PaperMod"]
+
+minify:
+  disableXML: true
+  # minifyOutput: true
+
+pagination:
+  disableAliases: false
+  pagerSize: 3
+
+params:
+  homeInfoParams:
+    Title: Hi there &#x1f44b;
+    Content: Welcome to my blog. Here you'll find posts and ramblings related to electronics and other technical things I find interesting.
