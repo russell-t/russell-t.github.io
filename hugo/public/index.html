@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Russell Blog</title>
 
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/">
+<link rel="canonical" href="https://russell-t.github.io/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.95ae6e9689bd0037456375629f411acbf8ed76e0e9a7599900ad281f9526dee6.css" integrity="sha256-la5ulom9ADdFY3Vin0Eay/jtduDpp1mZAK0oH5Um3uY=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://russell-t.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://russell-t.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://russell-t.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://russell-t.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://russell-t.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/">
+<link rel="alternate" type="application/rss+xml" href="https://russell-t.github.io/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="https://russell-t.github.io/">
 <noscript>
     <style>
         #theme-toggle,
@@ -66,13 +66,51 @@
     }
 
 </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+
+<meta property="og:url" content="https://russell-t.github.io/">
+  <meta property="og:site_name" content="Russell Blog">
+  <meta property="og:title" content="Russell Blog">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Russell Blog">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Russell Blog",
+  "url": "https://russell-t.github.io/",
+  "description": "",
+  "logo": "https://russell-t.github.io/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
 	<meta name="generator" content="Hugo 0.169.0">
 </head>
 <body class="list" id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Russell Blog (Alt + H)">Russell Blog</a>
+            <a href="https://russell-t.github.io/" accesskey="h" title="Russell Blog (Alt + H)">Russell Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
@@ -107,7 +145,7 @@
     </header>
     <div class="entry-content md-content">
         
-        <p>Welcome to my blog. Here you&rsquo;ll find posts and ramblings related to electronics and other technical things I find interesting.</p>
+        <p>Welcome to my blog. Here you&rsquo;ll find posts and ramblings related to electronics, audio, and other technical things I find interesting.</p>
 
     </div>
     <footer class="entry-footer">
@@ -116,10 +154,33 @@
 
     </footer>
 </article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+            <img loading="lazy"
+                srcset='https://russell-t.github.io/posts/common-emitter-pt1/cover_hu_b428632fdde3e7bc.png 360w,https://russell-t.github.io/posts/common-emitter-pt1/cover_hu_ce268a035c442af.png 480w,https://russell-t.github.io/posts/common-emitter-pt1/cover.png 580w'
+                src="https://russell-t.github.io/posts/common-emitter-pt1/cover.png"
+                sizes="(min-width: 768px) 720px, 100vw"
+                width="580" height="252"
+                alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it’s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-10-30T20:39:26+01:00'>October 30, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)" href="https://russell-t.github.io/posts/common-emitter-pt1/"></a>
+</article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Russell Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://russell-t.github.io/">Russell Blog</a></span> · 
 
     
     
