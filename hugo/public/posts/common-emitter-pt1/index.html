@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1) | Russell Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it&rsquo;s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/common-emitter-pt1/">
+<link rel="canonical" href="https://russell-t.github.io/posts/common-emitter-pt1/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.95ae6e9689bd0037456375629f411acbf8ed76e0e9a7599900ad281f9526dee6.css" integrity="sha256-la5ulom9ADdFY3Vin0Eay/jtduDpp1mZAK0oH5Um3uY=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://russell-t.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://russell-t.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://russell-t.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://russell-t.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://russell-t.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/common-emitter-pt1/">
+<link rel="alternate" hreflang="en" href="https://russell-t.github.io/posts/common-emitter-pt1/">
 <noscript>
     <style>
         #theme-toggle,
@@ -81,13 +81,77 @@
 
 
 
+<meta property="og:url" content="https://russell-t.github.io/posts/common-emitter-pt1/">
+  <meta property="og:site_name" content="Russell Blog">
+  <meta property="og:title" content="Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)">
+  <meta property="og:description" content="I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it’s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-10-30T20:39:26+01:00">
+    <meta property="article:modified_time" content="2026-10-30T20:39:26+01:00">
+    <meta property="og:image" content="https://russell-t.github.io/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://russell-t.github.io/cover.png">
+  <meta name="twitter:title" content="Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)">
+  <meta name="twitter:description" content="I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it’s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.">
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://russell-t.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)",
+      "item": "https://russell-t.github.io/posts/common-emitter-pt1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)",
+  "name": "Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)",
+  "description": "I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it\u0026rsquo;s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \\(R_f\\), as it appears in the Electra Distortion circuit.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it’s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \\(R_f\\), as it appears in the Electra Distortion circuit.\nDC Analysis Like any BJT amplifier, the first step is to determine the DC operating point, i.e. the quiescent point of the circuit. To do this, all capacitors in the circuit are viewed as open circuits, and then the circuit is analyzed to determine the operating point.\nPerforming KVL from \\(V_{CC}\\) down to ground, across \\(R_F\\) and the base to emitter junction,\n\\[V_{cc} - (I_b + I_c)R_c - I_bR_f - V_{be} - (I_b+I_c)R_e = 0\\] Since \\(I_c = \\beta I_b\\) by the Ebers-Moll model,\n\\[V_{cc} - (\\beta+1)I_bR_c - I_bR_f - V_{be} - (\\beta+1)I_bR_e = 0\\]\\[I_b = \\frac{V_{cc} - V_{be}}{R_f + (\\beta+1)(R_c+R_e)} \\] and\n\\[I_c = \\frac{\\beta (V_{cc} - V_{be})}{R_f + (\\beta+1)(R_c+R_e)} \\] AC Analysis For AC analysis, the capacitors in the circuit are viewed as short ciruits and the BJT is replaced by the hybrid-pi model. The DC voltages sources are also treated as ground.\nMiller’s Theorem Part of why I wanted to analyze this circuit is that I don’t have much experience with feedback networks outside of op amp circuits. I learned that Miller’s Theorem can be used for this. The theorem says that a branch with an impedance \\(Z\\), connecting two nodes with voltages \\(V_1\\) and \\(V_2\\), can be replaced by two branches connecting those nodes to ground with “Miller impedances” equal to \\(\\frac{Z}{1-K}\\) (from \\(V_1\\) to ground) and \\(\\frac{KZ}{K-1}\\) (from \\(V_2\\) to ground), where \\(K=\\frac{V_2}{V_1}\\). In this case, \\(V_2\\) is the collector voltage, and \\(V_1\\) is the base voltage, so \\(K\\) is equal to the gain of the amplifier stage, \\(A_{v}\\). When \\(A_{v} \\gg 1\\), the Miller impedance from \\(V_2\\) to ground becomes approximately \\(Z\\), the original impedance.\nIn this circuit, that looks like removing \\(R_f\\), and adding it back to the circuit connected between the collector to ground, and then adding a new resistor connected from the base to ground with value \\(\\frac{R_f}{1-A_{v}}\\).\nGain (\\(A_v\\)) With the equations \\(v_{be} = i_b r_{\\pi} \\), \\(\\beta = g_m r_{\\pi}\\), and \\(g_m=\\frac{I_c}{V_T}\\),\n$$v_{out} = -g_m(i_b r_{\\pi})(R_c||R_f)$$ $$v_{in} = i_b[(\\beta+1)R_e+r_{\\pi}] \\approx i_b(g_mr_{\\pi}R_e+r_{\\pi})$$ $$A_{v} = \\frac{v_{out}}{v_{in}} = \\frac{-g_m(i_b r_{\\pi})(R_c||R_f)}{i_b(g_mr_{\\pi}R_e+r_{\\pi})}=\\frac{-g_m(R_c||R_f)}{g_mR_e+1}$$ Input Resistance (\\(R_{in}\\)) The input resistance \\(R_{in}\\) is defined as\n$$R_{in} = \\frac{v_{in}}{i_{in}}$$ From the gain calculation, $$v_{in} = i_b[(\\beta+1)R_e+r_{\\pi}]$$ Since \\(i_b\\) is the current flowing into the base, the resistance looking into the base is $$\\frac{v_{in}}{i_b} = (\\beta+1)R_e+r_{\\pi}$$ This resistance is in parallel with the Miller resistance \\(\\frac{R_f}{1-A_{v}}\\), so the total input resistance of this amplifier stage is $$R_{in}=\\big((\\beta+1)R_e+r_{\\pi}\\big)||\\big(\\frac{R_f}{1-A_{v}}\\big)$$ With this configuration, it is interesting that \\(R_{in}\\) is now a function of \\(A_v\\), which is a function of the impedance of the load that is connected to \\(v_{out}\\), e.g. a resistor or the input resistance of a subsequent amplifier stage. When the load impedance is an open circuit, \\(A_v\\) is at its largest, and \\(R_{in}\\) at its smallest. As the load impedance decreases, \\(A_v\\) drops and the input resistance increases. This is due to the Miller resistance from the base to ground being inversely proportional to the voltage gain.\nOutput Resistance (\\(R_{out}\\)) The output resistance \\(R_{out}\\) is simply\n$$R_{out} = R_c||R_f$$ The Electra Distortion The Electra Distortion circuit, as described in the JHS Pedals video, looks like this without the clipping diodes and volume potentiometer: I didn’t include the clipping diodes in the circuit diagram because they can’t be analyzed using linear AC analysis techniques. I left the volume potentiometer out as well.\nDC Analysis First, calculating the DC operating point assuming \\(V_{be}\\) is 0.7 Volts and \\(\\beta = 300\\) for the 2N3904, \\[I_b = \\frac{V_{cc} - V_{be}}{R_f + (\\beta+1)(R_c+R_e)} = \\frac{9\\text{ V} - 0.7\\text{ V}}{2200000 + (300+1)(47000+680)} = 0.5015\\text{ uA} \\] \\[I_c = \\beta I_b = 300 (0.5015\\text{ uA}) = 150.438\\text{ uA} \\] Quickly looking at \\(V_{ce}\\) to get an idea of how the BJT will clip the signal, \\[ V_{ce} = 9 - (301)(0.5015\\text{ uA})(47000 + 680) = 1.803\\text{ V} \\] With \\(V_{ce} = V_{cc}/2 = 4.5\\text{ V}\\) being half way between saturation and cut-off, the BJT in this circuit is biased closer to saturation, meaning that the output signal will be asymmetrically clipped if \\(V_{ce}\\) swings 1.6 V or so (when \\(V_{ce}\\) reaches about 0.2 V).\nAC Analysis \\[g_m=\\frac{I_c}{V_T} = \\frac{150.438 \\text{ uA}}{26\\text{ mV}} = 0.005863 \\text{ A/V}\\] \\[ A_v=\\frac{-g_m(R_c||R_f)}{g_mR_e+1}=\\frac{-0.005863(46017)}{0.005863(680)+1}=-54.1\\text{ V/V} \\] \\[ A_{v,\\text{dB}}=20\\text{log}_{10}(54.1) = 34.66\\text{ dB} \\]\\[ r_{\\pi}=\\frac{\\beta}{g_m} = \\frac{300}{0.005863} = 51168 \\text{ Ω} \\]\\[ R_{in}=\\big((\\beta+1)R_e+r_{\\pi}\\big)||\\big(\\frac{R_f}{1-A_{v}}\\big)=\\big(301*680+51168\\big)||\\big(\\frac{2200000}{1+54.1}\\big)=34.5\\text{ kΩ} \\]\\[ R_{out}=R_c||R_f=47000||2200000=46\\text{ kΩ} \\] Looking into the amplifier stage, \\(R_{in}\\) appears as a shunt resistance to ground. This interacts with the series 100 nF capacitor at the base to form an RC high pass filter. The 3 dB point is \\[ f_{3\\text{dB}} = \\frac{1}{2\\pi RC} = \\frac{1}{2\\pi(34.5 \\text{ kΩ})(100\\text{ nF})} = 46.1\\text{ Hz} \\] The output resistance appears as a series resistance which when combined with any shunt capacitance connected from the collector to ground, would form an RC low pass filter. There is currently no such capacitance, so there is no low pass effect (aside from the inherent capacitance of the BJT that puts a lowpass pole somewhere well out of the audio band).\nSimulations Building the circuit in LTspice and running a DC simulation, it shows very close to what I calculated.\nParameter Calculated Simulated Base current, \\(I_b\\) 0.502 uA 0.502 uA Collector current, \\(I_c\\) 150.4 uA 152.3 uA Collector-to-emitter voltage, \\(V_{ce}\\) 1.8 V 1.71 V Running an AC simulation from 20 Hz to 22 kHz, the results are also very close to the calculations.\nParameter Calculated Simulated Gain, \\(A_v\\) 34.66 dB 34.5 dB Highpass cutoff, \\(f_{3\\text{dB}}\\) 46.1 Hz 45.97 Hz Input resistance, \\(R_{in}\\) 34.5 kΩ 34.85 kΩ Output resistance, \\(R_{out}\\) 46 kΩ 45.29 kΩ The circuit setup to simulate input impedance was this:\nAnd the circuit setup to simulate output impedance was this:\nInsights Going through the analysis allowed me to see what each component does in the circuit in a mathematical way. Notes on each component:\nThe BJT: Higher \\(\\beta\\) transistors result in higher \\(I_c\\), biasing more toward saturation since with higher collector current there is a larger voltage drop across \\(R_c\\). Gain is not as affected as it otherwise would be due to emitter resistor \\(R_e\\) and feedback resistor \\(R_f\\). \\(R_f\\): Biases the BJT and creates negative feedback that helps stabilize the DC operating point. Higher values result in lower \\(I_b\\) and \\(I_c\\) which biases the BJT more toward cutoff. Higher values of \\(R_f\\) also increases input resistance since the Miller resistance at the base is directly proportional to its value. Reduces gain by being in parallel with \\(R_c\\) from an AC perspective. \\(R_c\\): Primary resistor that sets the AC voltage gain \\(A_v\\). Higher values result in more gain, and consequencently results lower input resistance since \\(R_{in}\\) is inversely proportional to gain with this feedback configuration. Larger \\(R_c\\) also biases the BJT more toward saturation for the same reason that a larger \\(I_c\\) does (larger voltage drop across \\(R_c\\)). \\(R_e\\): Higher values provides more stability against differences in \\(\\beta\\) and temperature, but decreases gain. \\(C_{in}\\): DC blocking capacitor. Forms an RC high pass filter with the input resistance of the amplifier stage. Higher values result in a lower cutoff frequency, allowing more bass frequencies into the circuit. \\(C_{out}\\): DC blocking capacitor. Forms an RC high pass filter with the input resistance of the following stage. Higher values result in a lower cutoff frequency, allowing more bass frequencies into the circuit. In the end, what matters is what sounds good, so analytically choosing component values is probably not how I would want to build a pedal exclusively. Knowing the analysis behind it and what other pedals that use this topology use for component values, might help in intuiting how to achieve a certain sound.\nIn the next post in this series I intend to look at other modifications and additions to this circuit that I see in other pedals, including those found in the Big Muff Pi and Way Huge Swollen Pickle.\nAll circuit diagrams in this post were drawn with CircuiTikz, and all simulations were done with LTspice.\n",
+  "wordCount" : "1502",
+  "inLanguage": "en",
+  "image":"https://russell-t.github.io/cover.png","datePublished": "2026-10-30T20:39:26+01:00",
+  "dateModified": "2026-10-30T20:39:26+01:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://russell-t.github.io/posts/common-emitter-pt1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Russell Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://russell-t.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Russell Blog (Alt + H)">Russell Blog</a>
+            <a href="https://russell-t.github.io/" accesskey="h" title="Russell Blog (Alt + H)">Russell Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
@@ -130,7 +194,12 @@
 </div>
   </header> 
 <figure class="entry-cover">
-            <img loading="eager" src="http://localhost:1313/posts/common-emitter-pt1/cover.png" alt="">
+            <img loading="eager"
+                srcset='https://russell-t.github.io/posts/common-emitter-pt1/cover_hu_b428632fdde3e7bc.png 360w,https://russell-t.github.io/posts/common-emitter-pt1/cover_hu_ce268a035c442af.png 480w,https://russell-t.github.io/posts/common-emitter-pt1/cover.png 580w'
+                src="https://russell-t.github.io/posts/common-emitter-pt1/cover.png"
+                sizes="(min-width: 768px) 720px, 100vw"
+                width="580" height="252"
+                alt="">
         
 </figure><details class="toc" >
     <summary accesskey="c" title="(Alt + C)">
@@ -335,7 +404,7 @@ Running an AC simulation from 20 Hz to 22 kHz, the results are also very close t
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Russell Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://russell-t.github.io/">Russell Blog</a></span> · 
 
     
     
