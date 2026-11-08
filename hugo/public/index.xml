@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Russell Blog</title>
-    <link>https://russell-t.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Russell Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Oct 2026 20:39:26 +0100</lastBuildDate>
-    <atom:link href="https://russell-t.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)</title>
-      <link>https://russell-t.github.io/posts/common-emitter-pt1/</link>
+      <link>http://localhost:1313/posts/common-emitter-pt1/</link>
       <pubDate>Fri, 30 Oct 2026 20:39:26 +0100</pubDate>
-      <guid>https://russell-t.github.io/posts/common-emitter-pt1/</guid>
+      <guid>http://localhost:1313/posts/common-emitter-pt1/</guid>
       <description>&lt;p&gt;I was recently watching some episodes of the &lt;a href=&#34;https://youtube.com/playlist?list=PL_cgYn-EP29auNC4wm9fkpeqbSylf3qQV&amp;amp;si=msqbnsRuPn906S87&#34;&gt;Short Circuit&lt;/a&gt; series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it&amp;rsquo;s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.&lt;/p&gt;</description>
     </item>
   </channel>

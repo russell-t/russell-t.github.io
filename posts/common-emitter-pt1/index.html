@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1) | Russell Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="I was recently watching some episodes of the Short Circuit series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it&rsquo;s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/common-emitter-pt1/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.95ae6e9689bd0037456375629f411acbf8ed76e0e9a7599900ad281f9526dee6.css" integrity="sha256-la5ulom9ADdFY3Vin0Eay/jtduDpp1mZAK0oH5Um3uY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/common-emitter-pt1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Russell Blog (Alt + H)">Russell Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Common Emitter Amplifiers with Shunt Voltage Feedback: A Guitar Pedal Building Block (Part 1)
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-10-30T20:39:26+01:00'>October 30, 2026</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+            <img loading="eager" src="http://localhost:1313/posts/common-emitter-pt1/cover.png" alt="">
+        
+</figure><details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#dc-analysis" aria-label="DC Analysis">DC Analysis</a></li>
+            <li>
+                <a href="#ac-analysis" aria-label="AC Analysis">AC Analysis</a><ul>
+                    
+            <li>
+                <a href="#millers-theorem" aria-label="Miller&rsquo;s Theorem">Miller&rsquo;s Theorem</a></li>
+            <li>
+                <a href="#gain-a_v" aria-label="Gain (\(A_v\))">Gain (\(A_v\))</a></li>
+            <li>
+                <a href="#input-resistance-r_in" aria-label="Input Resistance (\(R_{in}\))">Input Resistance (\(R_{in}\))</a></li>
+            <li>
+                <a href="#output-resistance-r_out" aria-label="Output Resistance (\(R_{out}\))">Output Resistance (\(R_{out}\))</a></li></ul>
+            </li>
+            <li>
+                <a href="#the-electra-distortion" aria-label="The Electra Distortion">The Electra Distortion</a><ul>
+                    
+            <li>
+                <a href="#dc-analysis-1" aria-label="DC Analysis">DC Analysis</a></li>
+            <li>
+                <a href="#ac-analysis-1" aria-label="AC Analysis">AC Analysis</a></li>
+            <li>
+                <a href="#simulations" aria-label="Simulations">Simulations</a></li></ul>
+            </li>
+            <li>
+                <a href="#insights" aria-label="Insights">Insights</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>I was recently watching some episodes of the <a href="https://youtube.com/playlist?list=PL_cgYn-EP29auNC4wm9fkpeqbSylf3qQV&amp;si=msqbnsRuPn906S87">Short Circuit</a> series by JHS Pedals. The series starts by looking at an LPB1 boost pedal, which is a common emitter (CE) amplifier with emitter degeneration with the BJT biased via a voltage divider. The series continues by looking at the Electra Distortion circuit, which has a very similar circuit topology, except that the biasing is accomplished instead via a shunt feedback resistor between the base and collector of the transistor. Today, I discovered that the Big Muff Pi pedal uses multiple of these shunt feedback common emitter stages in series, as does another fuzz pedal that I like a lot - the Way Huge Swollen Pickle (yes, it&rsquo;s really called that). Josh mentions it is used in a ton of different pedals, so this is probably not even scratching the surface. As someone interested in designing my own pedals, it feels useful to analyze the circuit to build an intuition for what each component does. This post will look at the basic circuit, a CE amplifier biased by a feedback resistor \(R_f\), as it appears in the Electra Distortion circuit.</p>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/ce.png"></p>
+<h1 id="dc-analysis">DC Analysis<a hidden class="anchor" aria-hidden="true" href="#dc-analysis">#</a></h1>
+<p>Like any BJT amplifier, the first step is to determine the DC operating point, i.e. the quiescent point of the circuit. To do this, all capacitors in the circuit are viewed as open circuits, and then the circuit is analyzed to determine the operating point.</p>
+<p>Performing KVL from \(V_{CC}\) down to ground, across \(R_F\) and the base to emitter junction,</p>
+\[V_{cc} - (I_b + I_c)R_c - I_bR_f - V_{be} - (I_b+I_c)R_e = 0\]<p>Since \(I_c = \beta I_b\) by the Ebers-Moll model,</p>
+\[V_{cc} - (\beta+1)I_bR_c - I_bR_f - V_{be} - (\beta+1)I_bR_e = 0\]\[I_b = \frac{V_{cc} - V_{be}}{R_f + (\beta+1)(R_c+R_e)}
+\]<p>and</p>
+\[I_c = \frac{\beta (V_{cc} - V_{be})}{R_f + (\beta+1)(R_c+R_e)}
+\]<h1 id="ac-analysis">AC Analysis<a hidden class="anchor" aria-hidden="true" href="#ac-analysis">#</a></h1>
+<p>For AC analysis, the capacitors in the circuit are viewed as short ciruits and the BJT is replaced by the <a href="https://en.wikipedia.org/wiki/Hybrid-pi_model">hybrid-pi model</a>. The DC voltages sources are also treated as ground.</p>
+<h2 id="millers-theorem">Miller&rsquo;s Theorem<a hidden class="anchor" aria-hidden="true" href="#millers-theorem">#</a></h2>
+<p>Part of why I wanted to analyze this circuit is that I don&rsquo;t have much experience with feedback networks outside of op amp circuits. I learned that <a href="https://en.wikipedia.org/wiki/Miller_theorem">Miller&rsquo;s Theorem</a> can be used for this. The theorem says that a branch with an impedance \(Z\), connecting two nodes with voltages \(V_1\) and \(V_2\), can be replaced by two branches connecting those nodes to ground with &ldquo;Miller impedances&rdquo; equal to \(\frac{Z}{1-K}\) (from \(V_1\) to ground) and \(\frac{KZ}{K-1}\) (from \(V_2\) to ground), where \(K=\frac{V_2}{V_1}\). In this case, \(V_2\) is the collector voltage, and \(V_1\) is the base voltage, so \(K\) is equal to the gain of the amplifier stage, \(A_{v}\). When \(A_{v} \gg 1\), the Miller impedance from \(V_2\) to ground becomes approximately \(Z\), the original impedance.</p>
+<p>In this circuit, that looks like removing \(R_f\), and adding it back to the circuit connected between the collector to ground, and then adding a new resistor connected from the base to ground with value \(\frac{R_f}{1-A_{v}}\).</p>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/ac.png"></p>
+<h2 id="gain-a_v">Gain (\(A_v\))<a hidden class="anchor" aria-hidden="true" href="#gain-a_v">#</a></h2>
+<p>With the equations \(v_{be} = i_b r_{\pi} \), \(\beta = g_m r_{\pi}\), and \(g_m=\frac{I_c}{V_T}\),</p>
+$$v_{out} = -g_m(i_b r_{\pi})(R_c||R_f)$$<p>
+</p>
+$$v_{in} = i_b[(\beta+1)R_e+r_{\pi}] \approx i_b(g_mr_{\pi}R_e+r_{\pi})$$<p>
+</p>
+$$A_{v} = \frac{v_{out}}{v_{in}} = \frac{-g_m(i_b r_{\pi})(R_c||R_f)}{i_b(g_mr_{\pi}R_e+r_{\pi})}=\frac{-g_m(R_c||R_f)}{g_mR_e+1}$$<h2 id="input-resistance-r_in">Input Resistance (\(R_{in}\))<a hidden class="anchor" aria-hidden="true" href="#input-resistance-r_in">#</a></h2>
+<p>The input resistance \(R_{in}\) is defined as</p>
+$$R_{in} = \frac{v_{in}}{i_{in}}$$<p>From the gain calculation,
+</p>
+$$v_{in} = i_b[(\beta+1)R_e+r_{\pi}]$$<p>
+Since \(i_b\) is the current flowing into the base, the resistance looking into the base is
+</p>
+$$\frac{v_{in}}{i_b} = (\beta+1)R_e+r_{\pi}$$<p>This resistance is in parallel with the Miller resistance \(\frac{R_f}{1-A_{v}}\), so the total input resistance of this amplifier stage is
+</p>
+$$R_{in}=\big((\beta+1)R_e+r_{\pi}\big)||\big(\frac{R_f}{1-A_{v}}\big)$$<p>With this configuration, it is interesting that \(R_{in}\) is now a function of \(A_v\), which is a function of the impedance of the load that is connected to \(v_{out}\), e.g. a resistor or the input resistance of a subsequent amplifier stage. When the load impedance is an open circuit, \(A_v\) is at its largest, and \(R_{in}\) at its smallest. As the load impedance decreases, \(A_v\) drops and the input resistance increases. This is due to the Miller resistance from the base to ground being inversely proportional to the voltage gain.</p>
+<h2 id="output-resistance-r_out">Output Resistance (\(R_{out}\))<a hidden class="anchor" aria-hidden="true" href="#output-resistance-r_out">#</a></h2>
+<p>The output resistance \(R_{out}\) is simply</p>
+$$R_{out} = R_c||R_f$$<h1 id="the-electra-distortion">The Electra Distortion<a hidden class="anchor" aria-hidden="true" href="#the-electra-distortion">#</a></h1>
+<p>The Electra Distortion circuit, as described in the <a href="https://www.youtube.com/watch?v=BCF1hGa7JTw">JHS Pedals video</a>, looks like this without the clipping diodes and volume potentiometer:
+<img loading="lazy" src="/posts/common-emitter-pt1/circuit.png"></p>
+<p>I didn&rsquo;t include the clipping diodes in the circuit diagram because they can&rsquo;t be analyzed using linear AC analysis techniques. I left the volume potentiometer out as well.</p>
+<h2 id="dc-analysis-1">DC Analysis<a hidden class="anchor" aria-hidden="true" href="#dc-analysis-1">#</a></h2>
+<p>First, calculating the DC operating point assuming \(V_{be}\) is 0.7 Volts and \(\beta = 300\) for the 2N3904,
+</p>
+\[I_b = \frac{V_{cc} - V_{be}}{R_f + (\beta+1)(R_c+R_e)} = \frac{9\text{ V} - 0.7\text{ V}}{2200000 + (300+1)(47000+680)} = 0.5015\text{ uA}
+\]<p>
+</p>
+\[I_c = \beta I_b = 300 (0.5015\text{ uA}) = 150.438\text{ uA}
+\]<p>Quickly looking at \(V_{ce}\) to get an idea of how the BJT will clip the signal,
+</p>
+\[
+    V_{ce} = 9 - (301)(0.5015\text{ uA})(47000 + 680) = 1.803\text{ V}
+\]<p>
+With \(V_{ce} = V_{cc}/2 = 4.5\text{ V}\) being half way between saturation and cut-off, the BJT in this circuit is biased closer to saturation, meaning that the output signal will be asymmetrically clipped if \(V_{ce}\) swings 1.6 V or so (when \(V_{ce}\) reaches about 0.2 V).</p>
+<h2 id="ac-analysis-1">AC Analysis<a hidden class="anchor" aria-hidden="true" href="#ac-analysis-1">#</a></h2>
+\[g_m=\frac{I_c}{V_T} = \frac{150.438 \text{ uA}}{26\text{ mV}} = 0.005863 \text{ A/V}\]<p>
+</p>
+\[
+    A_v=\frac{-g_m(R_c||R_f)}{g_mR_e+1}=\frac{-0.005863(46017)}{0.005863(680)+1}=-54.1\text{ V/V}
+\]<p>
+</p>
+\[
+    A_{v,\text{dB}}=20\text{log}_{10}(54.1) = 34.66\text{ dB}
+\]\[
+    r_{\pi}=\frac{\beta}{g_m} = \frac{300}{0.005863} = 51168 \text{ Ω}
+\]\[
+    R_{in}=\big((\beta+1)R_e+r_{\pi}\big)||\big(\frac{R_f}{1-A_{v}}\big)=\big(301*680+51168\big)||\big(\frac{2200000}{1+54.1}\big)=34.5\text{ kΩ}
+\]\[
+    R_{out}=R_c||R_f=47000||2200000=46\text{ kΩ}
+\]<p>Looking into the amplifier stage, \(R_{in}\) appears as a shunt resistance to ground. This interacts with the series 100 nF capacitor at the base to form an RC high pass filter. The 3 dB point is
+</p>
+\[
+f_{3\text{dB}} = \frac{1}{2\pi RC} = \frac{1}{2\pi(34.5 \text{ kΩ})(100\text{ nF})} = 46.1\text{ Hz}
+\]<p>The output resistance appears as a series resistance which when combined with any shunt capacitance connected from the collector to ground, would form an RC low pass filter. There is currently no such capacitance, so there is no low pass effect (aside from the inherent capacitance of the BJT that puts a lowpass pole somewhere well out of the audio band).</p>
+<h2 id="simulations">Simulations<a hidden class="anchor" aria-hidden="true" href="#simulations">#</a></h2>
+<p>Building the circuit in LTspice and running a DC simulation, it shows very close to what I calculated.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Parameter</th>
+					<th>Calculated</th>
+					<th>Simulated</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Base current, \(I_b\)</td>
+					<td>0.502 uA</td>
+					<td>0.502 uA</td>
+			</tr>
+			<tr>
+					<td>Collector current, \(I_c\)</td>
+					<td>150.4 uA</td>
+					<td>152.3 uA</td>
+			</tr>
+			<tr>
+					<td>Collector-to-emitter voltage, \(V_{ce}\)</td>
+					<td>1.8 V</td>
+					<td>1.71 V</td>
+			</tr>
+	</tbody>
+</table>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/electra_dc.png">
+Running an AC simulation from 20 Hz to 22 kHz, the results are also very close to the calculations.</p>
+<table>
+	<thead>
+			<tr>
+					<th>Parameter</th>
+					<th>Calculated</th>
+					<th>Simulated</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Gain, \(A_v\)</td>
+					<td>34.66 dB</td>
+					<td>34.5 dB</td>
+			</tr>
+			<tr>
+					<td>Highpass cutoff, \(f_{3\text{dB}}\)</td>
+					<td>46.1 Hz</td>
+					<td>45.97 Hz</td>
+			</tr>
+			<tr>
+					<td>Input resistance, \(R_{in}\)</td>
+					<td>34.5 kΩ</td>
+					<td>34.85 kΩ</td>
+			</tr>
+			<tr>
+					<td>Output resistance, \(R_{out}\)</td>
+					<td>46 kΩ</td>
+					<td>45.29 kΩ</td>
+			</tr>
+	</tbody>
+</table>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/image1.png">
+<img loading="lazy" src="/posts/common-emitter-pt1/image2.png">
+<img loading="lazy" src="/posts/common-emitter-pt1/image3.png">
+<img loading="lazy" src="/posts/common-emitter-pt1/image4.png"></p>
+<p>The circuit setup to simulate input impedance was this:</p>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/input_imp_sim.png"></p>
+<p>And the circuit setup to simulate output impedance was this:</p>
+<p><img loading="lazy" src="/posts/common-emitter-pt1/output_imp_sim.png"></p>
+<h1 id="insights">Insights<a hidden class="anchor" aria-hidden="true" href="#insights">#</a></h1>
+<p>Going through the analysis allowed me to see what each component does in the circuit in a mathematical way. Notes on each component:</p>
+<ul>
+<li>The BJT: Higher \(\beta\) transistors result in higher \(I_c\), biasing more toward saturation since with higher collector current there is a larger voltage drop across \(R_c\). Gain is not as affected as it otherwise would be due to emitter resistor \(R_e\) and feedback resistor \(R_f\).</li>
+<li>\(R_f\): Biases the BJT and creates negative feedback that helps stabilize the DC operating point. Higher values result in lower \(I_b\) and \(I_c\) which biases the BJT more toward cutoff. Higher values of \(R_f\) also increases input resistance since the Miller resistance at the base is directly proportional to its value. Reduces gain by being in parallel with \(R_c\) from an AC perspective.</li>
+<li>\(R_c\): Primary resistor that sets the AC voltage gain \(A_v\). Higher values result in more gain, and consequencently results lower input resistance since \(R_{in}\) is inversely proportional to gain with this feedback configuration. Larger \(R_c\) also biases the BJT more toward saturation for the same reason that a larger \(I_c\) does (larger voltage drop across \(R_c\)).</li>
+<li>\(R_e\): Higher values provides more stability against differences in \(\beta\) and temperature, but decreases gain.</li>
+<li>\(C_{in}\): DC blocking capacitor. Forms an RC high pass filter with the input resistance of the amplifier stage. Higher values result in a lower cutoff frequency, allowing more bass frequencies into the circuit.</li>
+<li>\(C_{out}\): DC blocking capacitor. Forms an RC high pass filter with the input resistance of the following stage. Higher values result in a lower cutoff frequency, allowing more bass frequencies into the circuit.</li>
+</ul>
+<p>In the end, what matters is what sounds good, so analytically choosing component values is probably not how I would want to build a pedal exclusively. Knowing the analysis behind it and what other pedals that use this topology use for component values, might help in intuiting how to achieve a certain sound.</p>
+<p>In the next post in this series I intend to look at other modifications and additions to this circuit that I see in other pedals, including those found in the Big Muff Pi and Way Huge Swollen Pickle.</p>
+<blockquote>
+<p>All circuit diagrams in this post were drawn with <a href="https://www.overleaf.com/learn/latex/CircuiTikz_package">CircuiTikz</a>, and all simulations were done with <a href="https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html">LTspice</a>.</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Russell Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        
+        let menuScrollTimeout;
+        menu.addEventListener("scroll", function () {
+            clearTimeout(menuScrollTimeout);
+            menuScrollTimeout = setTimeout(function () {
+                localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+            }, 150);
+        }, { passive: true });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            const target = document.querySelector(`[id='${decodeURIComponent(id)}']`);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                target.scrollIntoView();
+            }
+            
+            
+            if (target.tabIndex < 0 && !target.hasAttribute("tabindex")) {
+                target.setAttribute("tabindex", "-1");
+            }
+            target.focus({ preventScroll: true });
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    var scrollTicking = false;
+    
+    window.addEventListener("scroll", function () {
+        if (scrollTicking) {
+            return;
+        }
+        scrollTicking = true;
+        requestAnimationFrame(function () {
+            const scrollThreshold = window.innerHeight;
+            const shown = document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold;
+            toplink.classList.toggle("hidden", !shown);
+            scrollTicking = false;
+        });
+    }, { passive: true });
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
